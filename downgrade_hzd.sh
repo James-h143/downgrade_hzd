@@ -13,6 +13,7 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd ) 
 depot_downloader_release_url="https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.5/depotdownloader-2.4.5.zip"
 depot_downloader_install_dir="${script_dir}/depotdownloader"
 cache_directory="${script_dir}/cache"
+file_download_list="${script_dir}/filelist.txt"
 files=( 
     "/HorizonZeroDawn.exe"
     "/LocalCacheDX12/HashDB.bin"
@@ -23,8 +24,7 @@ files=(
 get_manifest () {
   dotnet "${depot_downloader_install_dir}/DepotDownloader.dll"\
    -app "$1" -depot "$2" -manifest "$3" -username "$steam_username" -password "$steam_password"\
-   -dir "$depot_downloader_install_dir/depots/$2"
-  
+   -dir "$depot_downloader_install_dir/depots/$2" -filelist "$file_download_list"
   for file_name in ${files[@]}
   do
     file_finder="${depot_downloader_install_dir}/depots/$2/${file_name}"
