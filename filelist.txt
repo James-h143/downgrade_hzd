@@ -1,4 +1,0 @@
-HorizonZeroDawn.exe
-LocalCacheDX12/HashDB.bin
-LocalCacheDX12/ShaderLocationDB.bin
-Packed_DX12/Patch.bin
