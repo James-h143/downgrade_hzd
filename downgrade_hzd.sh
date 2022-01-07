@@ -13,12 +13,12 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd ) 
 depot_downloader_release_url="https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.5/depotdownloader-2.4.5.zip"
 depot_downloader_install_dir="${script_dir}/depotdownloader"
 cache_directory="${script_dir}/cache"
-file_download_list="${script_dir}/filelist.txt"
+file_download_list="${depot_downloader_install_dir}/filelist.txt"
 files=( 
-    "/HorizonZeroDawn.exe"
-    "/LocalCacheDX12/HashDB.bin"
-    "/LocalCacheDX12/ShaderLocationDB.bin"
-    "/Packed_DX12/Patch.bin"
+    "HorizonZeroDawn.exe"
+    "LocalCacheDX12/HashDB.bin"
+    "LocalCacheDX12/ShaderLocationDB.bin"
+    "Packed_DX12/Patch.bin"
 )
 
 get_manifest () {
@@ -31,7 +31,7 @@ get_manifest () {
 
     if [ -f "$file_finder" ]
     then
-        dir_name=`dirname "${cache_directory}${file_name}"`
+        dir_name=`dirname "${cache_directory}/${file_name}"`
         mkdir --parents $dir_name
         cp "${file_finder}" "${dir_name}"
     fi
@@ -46,6 +46,7 @@ then
   unzip -o "${script_dir}/${depot_downloader_file}" -d "$depot_downloader_install_dir"
   rm "${script_dir}/${depot_downloader_file}"
 
+  printf "%s\n" "${files[@]}" > "${depot_downloader_install_dir}/filelist.txt"
   get_manifest 1151640 1151641 8564283306590138028
   get_manifest 1151640 1151642 2110572734960666938
   rm -r "$depot_downloader_install_dir"
@@ -54,8 +55,8 @@ fi
 
 for file_name in ${files[@]}
   do
-    installed_file="${install_directory}${file_name}"
-    cached_file="${cache_directory}${file_name}"
+    installed_file="${install_directory}/${file_name}"
+    cached_file="${cache_directory}/${file_name}"
     md5sum_installed=($(md5sum "$installed_file"))
     md5sum_cached=($(md5sum "$cached_file"))
 
